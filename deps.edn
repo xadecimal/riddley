@@ -1,0 +1,8 @@
+{:paths ["src" "target/classes"]
+ :deps {}
+ :deps/prep-lib {:alias :build
+                 :fn compile
+                 :ensure "target/classes"}
+ :aliases
+ {:build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}}
+          :ns-default build}}}
