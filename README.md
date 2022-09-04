@@ -24,7 +24,12 @@ This means that transforms that we intend to apply to expressions may have unint
 
 This fork is not published to Clojars or Mvn Central, so you can only depend on it as a git deps:
 ```clj
-:deps {com.github.xadecimal/riddley {:git/tag "0.2.1" :git/sha ""}}
+com.github.xadecimal/riddley {:git/tag "0.2.1" :git/sha "c905720"}
+```
+
+Library needs to be prepped first, so remember to run:
+```clj
+clj -X:deps prep
 ```
 
 Riddley provides a correct `riddley.walk/macroexpand-all`, which preserves the binding information in `&env` and expands inlined functions, and `riddley.walk/walk-exprs`, which is a general mechanism for code walking and transformation.
