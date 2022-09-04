@@ -1,3 +1,5 @@
+Fork of ztellman/riddley that allows walking forms that want to rewrite the (var ...) special form.
+
     Walker is my name
     and I am the same.
     Riddley Walker.
@@ -20,10 +22,9 @@ This means that transforms that we intend to apply to expressions may have unint
 
 ### usage
 
-[![Build Status](https://travis-ci.org/ztellman/riddley.png?branch=master)](https://travis-ci.org/ztellman/riddley)
-
+This fork is not published to Clojars or Mvn Central, so you can only depend on it as a git deps:
 ```clj
-[riddley "0.2.0"]
+:deps {com.github.xadecimal/riddley {:git/tag "0.2.1" :git/sha ""}}
 ```
 
 Riddley provides a correct `riddley.walk/macroexpand-all`, which preserves the binding information in `&env` and expands inlined functions, and `riddley.walk/walk-exprs`, which is a general mechanism for code walking and transformation.
@@ -44,5 +45,6 @@ Full documentation can be found [here](http://aleph.io/codox/riddley/).
 ### license
 
 Copyright © 2013 Zachary Tellman
+Copyright © 2022 xadecimal
 
 Distributed under the MIT License.
