@@ -1,32 +1,32 @@
-(ns riddley.walk-test
+(ns com.xadecimal.riddley.walk-test
   (:require
-    [clojure.test :refer :all]
-    [riddley.compiler :as c]
-    [riddley.walk :as r]))
+   [clojure.test :refer :all]
+   [com.xadecimal.riddley.compiler :as c]
+   [com.xadecimal.riddley.walk :as r]))
 
 (defmacro inc-numbers [& body]
   (r/walk-exprs
-    number?
-    inc
-    `(do ~@body)))
+   number?
+   inc
+   `(do ~@body)))
 
 (defmacro external-references [expr]
   (let [log (atom #{})]
     (r/walk-exprs
-      symbol?
-      (fn [x]
-        (when (or (contains? &env x)
-                  (not (contains? (c/locals) x)))
-          (swap! log conj x))
-        x)
-      expr)
+     symbol?
+     (fn [x]
+       (when (or (contains? &env x)
+                 (not (contains? (c/locals) x)))
+         (swap! log conj x))
+       x)
+     expr)
     (list 'quote @log)))
 
 (defmacro identify-special-forms [expr]
   (list 'quote (r/walk-exprs
-                 symbol?
-                 (comp boolean r/special-form?)
-                 expr)))
+                symbol?
+                (comp boolean r/special-form?)
+                expr)))
 
 (defrecord Test [x])
 
@@ -37,39 +37,39 @@
   ;; the first and third numbers get incremented, but not the second
   (is (= 4 (inc-numbers (case 1 2 3))))
 
-  (is (= (Test. 1) (inc-numbers #riddley.walk_test.Test{:x 1})))
+  (is (= (Test. 1) (inc-numbers #com.xadecimal.riddley.walk_test.Test{:x 1})))
 
   (is (= 2 ((inc-numbers (fn [] 1)))))
   (is (= 4 (inc-numbers (+ 1 1))))
   (is (= 4 (inc-numbers (let [n 1] (+ n 1)))))
   (is (= 42 (inc-numbers
-              (let [n 1]
-                (if (= n 1)
-                  41
-                  0)))))
+             (let [n 1]
+               (if (= n 1)
+                 41
+                 0)))))
   (is (= 2 (inc-numbers
-             (try
-               (/ 2 -1) ()
-               (catch Exception e
-                 1)))))
+            (try
+              (/ 2 -1) ()
+              (catch Exception e
+                1)))))
 
   (is (= 4 (n
-             (inc-numbers
-               (let [n 1]
-                 (reify TestP (n [_] (+ 1 n))))))))
+            (inc-numbers
+             (let [n 1]
+               (reify TestP (n [_] (+ 1 n))))))))
 
   (is (= 4 (n
-             (let [n 100]
-               (eval
-                 '(riddley.walk-test/inc-numbers
-                    (deftype Foo [n]
-                      riddley.walk-test/TestP
-                      (n [_] (+ 1 n)))
-                    (Foo. 1))))))))
+            (let [n 100]
+              (eval
+               '(com.xadecimal.riddley.walk-test/inc-numbers
+                 (deftype Foo [n]
+                   com.xadecimal.riddley.walk-test/TestP
+                   (n [_] (+ 1 n)))
+                 (Foo. 1))))))))
 
 (deftest test-macro-shadowing
   (is (= :yes
-        (inc-numbers
+         (inc-numbers
           ((fn let [x]
              (if (= x 0)
                :yes
@@ -79,12 +79,12 @@
 (def foo 1)
 
 (deftest test-var-evaluation
-  (is (= #{#'riddley.walk-test/foo}
+  (is (= #{#'com.xadecimal.riddley.walk-test/foo}
          (let [acc (atom #{})]
            (r/walk-exprs
             (constantly true)
             #(do (swap! acc conj %) %)
-            '#'riddley.walk-test/foo)
+            '#'com.xadecimal.riddley.walk-test/foo)
            @acc))))
 
 (deftest test-doesnt-walk-var-if-not-requested
@@ -93,7 +93,7 @@
            (r/walk-exprs
             (constantly false)
             #(do (swap! acc conj %) %)
-            '#'riddley.walk-test/foo)
+            '#'com.xadecimal.riddley.walk-test/foo)
            @acc))))
 
 (deftest try-catch-finally-locals
@@ -103,32 +103,32 @@
                  (finally nil)))
 
          (r/walk-exprs (constantly false) identity
-           '(let [catch inc, finally dec, throw +]
-             (try (throw (catch 100) (finally 200))
-                  (catch Exception e)
-                  (finally nil)))))))
+                       '(let [catch inc, finally dec, throw +]
+                          (try (throw (catch 100) (finally 200))
+                               (catch Exception e)
+                               (finally nil)))))))
 
 (deftest try-catch-finally-locals-in-env
   (let [catch inc, finally dec, throw +]
     (is (= nil ((external-references
-                  (try (throw (catch 100) (finally 200))
-                       (catch Exception e)
-                       (finally nil)))
+                 (try (throw (catch 100) (finally 200))
+                      (catch Exception e)
+                      (finally nil)))
                 'e)))))
 
 (deftest letfn-binds-locals-recursively
   (is (= nil ((external-references
-                (letfn [(f1 [x] (inc (f2 x)))
-                        (f2 [x] (* x 100))]
-                  (f1 (f2 100))))
+               (letfn [(f1 [x] (inc (f2 x)))
+                       (f2 [x] (* x 100))]
+                 (f1 (f2 100))))
               'f2))))
 
 (deftest special-forms-identified
   (is (= (identify-special-forms
-           (let* [catch inc, finally dec, throw +]
-             (try (throw (catch 100) (finally 200))
-                  (catch Exception e)
-                  (finally nil))))
+          (let* [catch inc, finally dec, throw +]
+            (try (throw (catch 100) (finally 200))
+                 (catch Exception e)
+                 (finally nil))))
          '(let* [catch false, finally false, throw false]
             (try (true (false 100) (false 200))
                  (catch Exception e)
@@ -145,7 +145,7 @@
 
 (deftest do-not-macroexpand-quoted-things
   (is (= '(def p '(fn []))
-        (r/walk-exprs
+         (r/walk-exprs
           (constantly false)
           identity
           '(def p '(fn []))))))

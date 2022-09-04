@@ -1,4 +1,4 @@
-package riddley;
+package com.xadecimal.riddley;
 
 import clojure.lang.Symbol;
 import clojure.lang.Compiler;

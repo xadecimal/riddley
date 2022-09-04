@@ -1,12 +1,12 @@
-(ns riddley.compiler
+(ns com.xadecimal.riddley.compiler
   (:import
-    [clojure.lang
-     Var
-     Compiler
-     Compiler$ObjMethod
-     Compiler$ObjExpr]
-    [riddley
-     Util]))
+   [clojure.lang
+    Var
+    Compiler
+    Compiler$ObjMethod
+    Compiler$ObjExpr]
+   [com.xadecimal.riddley
+    Util]))
 
 (defn- stub-method []
   (proxy [Compiler$ObjMethod] [(Compiler$ObjExpr. nil) nil]))
@@ -16,9 +16,9 @@
   [x]
   (when-let [tag (-> x meta :tag)]
     (let [sym (symbol
-                (if (instance? Class tag)
-                  (.getName ^Class tag)
-                  (name tag)))]
+               (if (instance? Class tag)
+                 (.getName ^Class tag)
+                 (name tag)))]
       (when-not (= 'java.lang.Object sym)
         sym))))
 
@@ -58,22 +58,22 @@
   (with-stub-vars
     (.set ^Var Compiler/LOCAL_ENV
 
-      ;; we want to allow metadata on the symbols to persist, so remove old symbols first
-      (-> (locals)
-        (dissoc v)
-        (assoc v (try
-                   (Util/localBinding (local-id) v (tag-of v) x)
-                   (catch Exception _
-                     ::analyze-failure)))))))
+          ;; we want to allow metadata on the symbols to persist, so remove old symbols first
+          (-> (locals)
+              (dissoc v)
+              (assoc v (try
+                         (Util/localBinding (local-id) v (tag-of v) x)
+                         (catch Exception _
+                           ::analyze-failure)))))))
 
 (defn register-arg
   "Registers a function argument `x`."
   [x]
   (with-stub-vars
     (.set ^Var Compiler/LOCAL_ENV
-      (-> (locals)
-        (dissoc x)
-        (assoc x (Util/localArgument (local-id) x (tag-of x)))))))
+          (-> (locals)
+              (dissoc x)
+              (assoc x (Util/localArgument (local-id) x (tag-of x)))))))
 
 
 

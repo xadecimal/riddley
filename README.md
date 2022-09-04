@@ -24,7 +24,7 @@ This means that transforms that we intend to apply to expressions may have unint
 
 This fork is not published to Clojars or Mvn Central, so you can only depend on it as a git deps:
 ```clj
-com.github.xadecimal/riddley {:git/tag "0.2.1" :git/sha "c905720"}
+com.github.xadecimal/riddley {:git/tag "0.2.2" :git/sha ""}
 ```
 
 Library needs to be prepped first, so remember to run:
@@ -32,18 +32,18 @@ Library needs to be prepped first, so remember to run:
 clj -X:deps prep
 ```
 
-Riddley provides a correct `riddley.walk/macroexpand-all`, which preserves the binding information in `&env` and expands inlined functions, and `riddley.walk/walk-exprs`, which is a general mechanism for code walking and transformation.
+Riddley provides a correct `com.xadecimal.riddley.walk/macroexpand-all`, which preserves the binding information in `&env` and expands inlined functions, and `riddley.walk/walk-exprs`, which is a general mechanism for code walking and transformation.
 
 `walk-exprs` takes two arguments, a `predicate` for whether it should transform the sub-form, and a `handler` for doing the transformation.
 
 ```clj
-riddley.walk> (walk-exprs number? inc '(let [n 1] (+ n 1)))
+com.xadecimal.riddley.walk> (walk-exprs number? inc '(let [n 1] (+ n 1)))
 (let* [n 2] (. clojure.lang.Numbers (add n 2)))
 ```
 
 Notice that `walk-exprs` implicitly macroexpands the form, including the inline form for `+`.  Unlike `clojure.walk`, if `handler` is called, sub-forms will not be walked.  The handler function is responsible for recursively calling `walk-exprs` on the form it's handed.
 
-Access to `&env` is available via `(riddley.compiler/locals)` if you need it as part of your transformation.
+Access to `&env` is available via `(com.xadecimal.riddley.compiler/locals)` if you need it as part of your transformation.
 
 Full documentation can be found [here](http://aleph.io/codox/riddley/).
 
