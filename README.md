@@ -25,8 +25,8 @@ This means that transforms that we intend to apply to expressions may have unint
 This fork is not published to Clojars or Mvn Central as of yet, for now you can only depend on it as a git deps:
 ```clj
 com.xadecimal/riddley {:git/url "https://github.com/xadecimal/riddley.git"
-                               :git/tag "0.2.3"
-                               :git/sha "..."}
+                       :git/tag "0.2.3"
+                       :git/sha "e9ecc4b"}
 ```
 
 Do not use an alternate coordinate, make sure to always declare it as `com.xadecimal/riddley` to properly detect and handle potential dependency conflicts.
