@@ -2,7 +2,7 @@
   (:require [clojure.tools.build.api :as b]))
 
 (def lib 'com.xadecimal/riddley)
-(def version "0.2.2")
+(def version "0.2.3")
 (def description "code-walking without caveats (fork of ztellman/riddley)")
 (def license {:name "MIT License"
               :url "http://opensource.org/licenses/MIT"})

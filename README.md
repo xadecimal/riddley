@@ -22,15 +22,21 @@ This means that transforms that we intend to apply to expressions may have unint
 
 ### usage
 
-This fork is not published to Clojars or Mvn Central, so you can only depend on it as a git deps:
+This fork is not published to Clojars or Mvn Central as of yet, for now you can only depend on it as a git deps:
 ```clj
-com.github.xadecimal/riddley {:git/tag "0.2.2" :git/sha ""}
+com.xadecimal/riddley {:git/url "https://github.com/xadecimal/riddley.git"
+                               :git/tag "0.2.3"
+                               :git/sha "..."}
 ```
 
-Library needs to be prepped first, so remember to run:
+Do not use an alternate coordinate, make sure to always declare it as `com.xadecimal/riddley` to properly detect and handle potential dependency conflicts.
+
+The library needs to be prepped first, so remember to run:
 ```clj
 clj -X:deps prep
 ```
+
+This fork uses different namespace prefix, all starting with `com.xadecimal.riddley` and is therefore safe to use in conjunction with the original ztellman's `riddley/riddley` from Clojars, as they will not conflict.
 
 Riddley provides a correct `com.xadecimal.riddley.walk/macroexpand-all`, which preserves the binding information in `&env` and expands inlined functions, and `riddley.walk/walk-exprs`, which is a general mechanism for code walking and transformation.
 
