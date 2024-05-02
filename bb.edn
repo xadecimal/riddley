@@ -12,12 +12,17 @@
               (run 'compile)
               (run 'test)
               (run 'install))
-  publish (do (run 'release)
-              (run 'update-documents)
-              (shell "git add .")
-              (shell "git diff --quiet --cached -- || git commit -m \"Prepared for new release.\"")
-              (shell "git push")
-              (run 'deploy))
+  publish {:requires ([clojure.edn :as edn])
+           :task (do (run 'release)
+                     (run 'update-documents)
+                     (shell "git add .")
+                     (try (shell "git diff --quiet --cached")
+                          (catch Exception _
+                            (shell
+                             (str "git commit -m \"Prepared for new release \""
+                                  (-> (edn/read-string (slurp "build.edn")) :version)))))
+                     (shell "git push")
+                     (run 'deploy))}
   publish-patch (do (run 'bump-patch-version)
                     (run 'publish))
   publish-minor (do (run 'bump-minor-version)

@@ -25,13 +25,13 @@ This means that transforms that we intend to apply to expressions may have unint
 **Leiningen**
 Add the following to your `project.clj` file:
 ```clj
-[com.xadecimal/riddley "0.2.3"]
+[com.xadecimal/riddley "0.2.5"]
 ```
 
 **Clojure CLI/deps.edn**
 Add the following to your `deps.edn`:
 ```clj
-{:deps {com.xadecimal/riddley {:mvn/version "0.2.3"}}}
+{:deps {com.xadecimal/riddley {:mvn/version "0.2.5"}}}
 ```
 
 This fork uses different namespace prefix, all starting with `com.xadecimal.riddley` and is therefore safe to use in conjunction with the original ztellman's `riddley/riddley` from Clojars, as they will not conflict.
