@@ -3,4 +3,14 @@
  :description "code-walking without caveats (fork of ztellman/riddley)"
  :licenses [{:name "MIT License"
              :url "http://opensource.org/licenses/MIT"}]
- :java-paths ["src/com/xadecimal/riddley"]}
+ :java-paths ["src/com/xadecimal/riddley"]
+ :documents [{:file "README.md"
+              :match ":deps \\{com\\.xadecimal\\/riddley"
+              :action :replace
+              :keep-indent? true
+              :text "{:deps {com.xadecimal/riddley {:mvn/version \"{{version}}\"}}}"}
+             {:file "README.md"
+              :match "\\[com\\.xadecimal\\/riddley"
+              :action :replace
+              :keep-indent? true
+              :text "[com.xadecimal/riddley \"{{version}}\"]"}]}
