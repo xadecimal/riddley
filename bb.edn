@@ -1,7 +1,11 @@
 {:tasks
- {clean (clojure "-T:build clean")
-  compile (clojure "-T:build compile")
+ {compile (clojure "-T:build java-compile")
   test (clojure "-X:test")
-  release (do (run 'clean)
-              (run 'compile)
-              (run 'test))}}
+  lint (clojure "-T:build lint")
+  deploy (clojure "-T:build deploy")
+  install (clojure "-T:build install")
+  release (do
+            (run 'lint)
+            (run 'compile)
+            (run 'test)
+            (run 'install))}}

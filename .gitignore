@@ -12,3 +12,5 @@ push
 .DS_Store*
 /lib/
 .cpcache/
+.clj-kondo/
+.lsp/

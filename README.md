@@ -22,18 +22,16 @@ This means that transforms that we intend to apply to expressions may have unint
 
 ### usage
 
-This fork is not published to Clojars or Mvn Central as of yet, for now you can only depend on it as a git deps:
+**Leiningen**
+Add the following to your `project.clj` file:
 ```clj
-com.xadecimal/riddley {:git/url "https://github.com/xadecimal/riddley.git"
-                       :git/tag "0.2.3"
-                       :git/sha "e9ecc4b"}
+[com.xadecimal/riddley "0.2.3"]
 ```
 
-Do not use an alternate coordinate, make sure to always declare it as `com.xadecimal/riddley` to properly detect and handle potential dependency conflicts.
-
-The library needs to be prepped first, so remember to run:
+**Clojure CLI/deps.edn**
+Add the following to your `deps.edn`:
 ```clj
-clj -X:deps prep
+{:deps {com.xadecimal/riddley {:mvn/version "0.2.3"}}}
 ```
 
 This fork uses different namespace prefix, all starting with `com.xadecimal.riddley` and is therefore safe to use in conjunction with the original ztellman's `riddley/riddley` from Clojars, as they will not conflict.

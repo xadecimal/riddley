@@ -1,0 +1,6 @@
+{:lib com.xadecimal/riddley
+ :version "0.2.3"
+ :description "code-walking without caveats (fork of ztellman/riddley)"
+ :licenses [{:name "MIT License"
+             :url "http://opensource.org/licenses/MIT"}]
+ :java-paths ["src/com/xadecimal/riddley"]}
