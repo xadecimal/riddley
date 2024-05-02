@@ -15,7 +15,7 @@
   publish (do (run 'release)
               (run 'update-documents)
               (shell "git add .")
-              (shell "git commit -m \"Prepared for new release.\"")
+              (shell "git diff --quiet --cached -- || git commit -m \"Prepared for new release.\"")
               (shell "git push")
               (run 'deploy))
   publish-patch (do (run 'bump-patch-version)
